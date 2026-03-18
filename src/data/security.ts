@@ -6,7 +6,7 @@ export const securityData = [
         "subtopic": "Session-based Auth",
         "shortInsight": "Session Auth: Server remembers logged-in users!",
         "teaching": "Session-based authentication stores a user session on the server after login, usually via a cookie session ID sent to the client. The server keeps track of active sessions in memory or a database. Each subsequent request references this session.",
-        "realLifeExample": "Think of session-based auth like checking into a hotel: when you log in (check-in), the hotel (server) gives you a keycard (session ID). As long as you present it, the hotel knows you\'re a registered guest (authenticated).",
+        "realLifeExample": "Think of session-based auth like checking into a hotel: when you log in (check-in), the hotel (server) gives you a keycard (session ID). As long as you present it, the hotel knows you're a registered guest (authenticated).",
         "quiz": {
             "question": "What does a session-based authentication store on the client?",
             "options": [

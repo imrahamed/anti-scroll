@@ -24,7 +24,7 @@ export const prerequisitesData = [
         "topic": "JavaScript Fundamentals",
         "subtopic": "Variables, Data Types, and Operators",
         "shortInsight": "Variables and data types: the DNA of your program!",
-        "teaching": "Variables store values (strings, numbers, booleans, objects, etc.) under a name. Operators (like +, -, ===) let you combine or compare these values. JavaScript is dynamically typed, so a variable\'s type can change, and operators behave differently based on the types of their operands.",
+        "teaching": "Variables store values (strings, numbers, booleans, objects, etc.) under a name. Operators (like +, -, ===) let you combine or compare these values. JavaScript is dynamically typed, so a variable's type can change, and operators behave differently based on the types of their operands.",
         "realLifeExample": "Imagine variables as labeled containers holding items (data). Operators are like actions you perform on these containers: you can combine, compare, or modify the items inside, just like mixing ingredients in a recipe based on their type.",
         "quiz": {
             "question": "Which of the following is a primitive data type in JavaScript?",
@@ -44,7 +44,7 @@ export const prerequisitesData = [
         "subtopic": "Functions and Scope",
         "shortInsight": "Functions: Code's reusable building blocks with their own space!",
         "teaching": "A function is a block of code that can be called by name. Scope determines where variables are accessible: global (anywhere in your code) or local to a function. Each time a function runs, it has its own local scope, keeping inner variables separate from outer ones.",
-        "realLifeExample": "Think of a function like a recipe: ingredients (variables) inside the recipe are only used within that recipe and don\'t affect other recipes. Each function has its own kitchen, so the same ingredient name in different kitchens won\'t get mixed up.",
+        "realLifeExample": "Think of a function like a recipe: ingredients (variables) inside the recipe are only used within that recipe and don't affect other recipes. Each function has its own kitchen, so the same ingredient name in different kitchens won't get mixed up.",
         "quiz": {
             "question": "What is true about function scope in JavaScript?",
             "options": [
@@ -82,7 +82,7 @@ export const prerequisitesData = [
         "subtopic": "Closures",
         "shortInsight": "Closures: Functions that remember their surroundings!",
         "teaching": "A closure happens when an inner function keeps access to variables from its outer function even after the outer function has finished running. The inner function retains a reference to those variables, allowing the data to persist.",
-        "realLifeExample": "Think of a closure like a backpack: an inner function carries the outer function\'s variables inside its backpack. Even after the outer function is done, the inner function still has those items in its backpack.",
+        "realLifeExample": "Think of a closure like a backpack: an inner function carries the outer function's variables inside its backpack. Even after the outer function is done, the inner function still has those items in its backpack.",
         "quiz": {
             "question": "What defines a closure in JavaScript?",
             "options": [
@@ -99,8 +99,8 @@ export const prerequisitesData = [
         "category": "Prerequisites",
         "topic": "Asynchronous Programming",
         "subtopic": "Event Loop Basics",
-        "shortInsight": "Event Loop: JavaScript\'s multitasking wizardry!",
-        "teaching": "The event loop is Node.js\'s mechanism to handle asynchronous operations. It continuously checks a queue of events and executes callback functions when tasks complete, all while running on a single thread. This allows JavaScript to handle operations like reading files or network requests without stopping the main program.",
+        "shortInsight": "Event Loop: JavaScript's multitasking wizardry!",
+        "teaching": "The event loop is Node.js's mechanism to handle asynchronous operations. It continuously checks a queue of events and executes callback functions when tasks complete, all while running on a single thread. This allows JavaScript to handle operations like reading files or network requests without stopping the main program.",
         "realLifeExample": "Imagine a waiter (the event loop) who takes orders (tasks) and continues serving customers without delay. When a task is done (like food ready), the waiter brings it to the right table (callback) while still handling other orders in the meantime.",
         "quiz": {
             "question": "Which statement about the JavaScript event loop is correct?",
@@ -137,7 +137,7 @@ export const prerequisitesData = [
         "category": "Prerequisites",
         "topic": "Asynchronous Programming",
         "subtopic": "Async/Await",
-        "shortInsight": "Async/Await: Write asynchronous code like it\'s synchronous!",
+        "shortInsight": "Async/Await: Write asynchronous code like it's synchronous!",
         "teaching": "async/await is syntax sugar over Promises in JavaScript. An async function returns a Promise. Inside it, await pauses execution until a Promise resolves, making asynchronous code read like sequential code. This improves readability and simplifies error handling.",
         "realLifeExample": "Imagine following a recipe: you write down each step and wait (await) for the cake to bake before moving on to the next step. Async/await lets you write your steps sequentially, even if some steps (like baking) take time behind the scenes.",
         "quiz": {
@@ -157,7 +157,7 @@ export const prerequisitesData = [
         "topic": "Asynchronous Programming",
         "subtopic": "Error Handling",
         "shortInsight": "Error handling: Keeping your code safe and sound!",
-        "teaching": "In Node.js, handle errors using try/catch blocks or .catch() on Promises. For async/await, wrap code in try/catch to catch errors. Proper error handling ensures your app doesn\'t crash and can respond appropriately when something goes wrong.",
+        "teaching": "In Node.js, handle errors using try/catch blocks or .catch() on Promises. For async/await, wrap code in try/catch to catch errors. Proper error handling ensures your app doesn't crash and can respond appropriately when something goes wrong.",
         "realLifeExample": "Think of error handling like having a safety net: if a tightrope walker (your code) falls, a net (try/catch) catches them, allowing the show to continue without disaster.",
         "quiz": {
             "question": "How do you catch errors in an async function using async/await?",
@@ -175,7 +175,7 @@ export const prerequisitesData = [
         "category": "Prerequisites",
         "topic": "Basic Networking Concepts",
         "subtopic": "HTTP/HTTPS Protocols",
-        "shortInsight": "HTTP vs HTTPS: The web\'s communication lanes!",
+        "shortInsight": "HTTP vs HTTPS: The web's communication lanes!",
         "teaching": "HTTP is the basic protocol for transferring data over the web. HTTPS is the secure version, encrypting data via TLS/SSL for safety. Using HTTPS protects data in transit from eavesdropping or tampering by requiring encryption.",
         "realLifeExample": "Think of HTTP as sending a postcard through the mail (anyone can read it), while HTTPS is like sending a sealed, locked box with a private key — only the intended recipient can open and read it.",
         "quiz": {
@@ -194,9 +194,9 @@ export const prerequisitesData = [
         "category": "Prerequisites",
         "topic": "Basic Networking Concepts",
         "subtopic": "DNS",
-        "shortInsight": "DNS: The Internet\'s phonebook!",
+        "shortInsight": "DNS: The Internet's phonebook!",
         "teaching": "DNS (Domain Name System) translates human-readable domain names (like example.com) into IP addresses that computers use to locate each other. When you enter a URL, DNS servers resolve it to the actual numeric IP address of the web server.",
-        "realLifeExample": "Think of DNS as looking up a person\'s phone number by their name in a directory. You search for 'Alice', get her number, and then dial it. Similarly, DNS looks up 'example.com' and returns an IP address to connect to.",
+        "realLifeExample": "Think of DNS as looking up a person's phone number by their name in a directory. You search for 'Alice', get her number, and then dial it. Similarly, DNS looks up 'example.com' and returns an IP address to connect to.",
         "quiz": {
             "question": "What is the primary purpose of DNS?",
             "options": [
@@ -232,9 +232,9 @@ export const prerequisitesData = [
         "category": "Prerequisites",
         "topic": "Command Line & Git",
         "subtopic": "Basic Terminal Commands",
-        "shortInsight": "Terminal Commands: Your code\'s secret control panel!",
+        "shortInsight": "Terminal Commands: Your code's secret control panel!",
         "teaching": "Basic terminal commands let you navigate and manage files. For example, cd changes directories, ls lists files, mkdir makes directories, and rm deletes files. Mastering these lets you work efficiently without a graphical interface.",
-        "realLifeExample": "Think of the terminal as using a map and tools to manage files by typing commands. It\'s like driving a car with steering and pedals (commands) instead of clicking around with a mouse.",
+        "realLifeExample": "Think of the terminal as using a map and tools to manage files by typing commands. It's like driving a car with steering and pedals (commands) instead of clicking around with a mouse.",
         "quiz": {
             "question": "Which command would you use to list the files in the current directory?",
             "options": [
