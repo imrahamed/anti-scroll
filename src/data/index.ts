@@ -8,6 +8,7 @@ import { testingData } from './testing';
 import { advancedNodejsData } from './advancedNodejs';
 import { architectureData } from './architecture';
 import { devopsData } from './devops';
+import { systemDesignData } from './systemDesign';
 
 export const contentData = [
   ...prerequisitesData,
@@ -20,4 +21,5 @@ export const contentData = [
   ...advancedNodejsData,
   ...architectureData,
   ...devopsData,
+  ...systemDesignData,
 ];
