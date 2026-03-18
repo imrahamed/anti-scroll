@@ -1,0 +1,28 @@
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    name: Build the code
+    steps:
+      - name: checkout the project
+        uses: actions/checkout@v3
+      - name: install deps
+        uses: actions/setup-node@v3
+        with:
+          node-version: v20.x
+      - name: build the project
+        run: |
+         npm install -g pnpm
+         pnpm i
+         npm run build
+         
+      - name: deploying to surge
+        uses: mahmoudgalalz/surge-action@v0.1.5
+        with:
+          domain: 'scroll.imrahamed.in'
+          path: './dist'
+        env:
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
