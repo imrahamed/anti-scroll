@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import type { CardData } from '../App';
 import { LearningCard } from './LearningCard';
+import { QuizCard } from './QuizCard';
 
 interface FeedProps {
   content: CardData[];
@@ -18,7 +19,7 @@ export const Feed: React.FC<FeedProps> = ({ content, onBack, category }) => {
     const savedIndex = localStorage.getItem(`progress_${category}`);
     if (savedIndex) {
       const idx = parseInt(savedIndex, 10);
-      if (!isNaN(idx) && idx >= 0 && idx < content.length) {
+      if (!isNaN(idx) && idx >= 0 && idx < content.length * 2) {
         setActiveIndex(idx);
 
         // Scroll to the saved position immediately
@@ -39,7 +40,7 @@ export const Feed: React.FC<FeedProps> = ({ content, onBack, category }) => {
 
     const index = Math.round(container.scrollTop / itemHeight);
 
-    if (index !== activeIndex && index >= 0 && index < content.length) {
+    if (index !== activeIndex && index >= 0 && index < content.length * 2) {
       setActiveIndex(index);
       // Save progress to local storage
       localStorage.setItem(`progress_${category}`, index.toString());
@@ -69,9 +70,14 @@ export const Feed: React.FC<FeedProps> = ({ content, onBack, category }) => {
           onScroll={handleScroll}
         >
           {content.map((card, index) => (
-            <div key={card.id} className="snap-start h-full w-full flex-shrink-0 relative overflow-hidden">
-              <LearningCard data={card} isActive={index === activeIndex && isReady} />
-            </div>
+            <React.Fragment key={card.id}>
+              <div className="snap-start h-full w-full flex-shrink-0 relative overflow-hidden">
+                <LearningCard data={card} isActive={index * 2 === activeIndex && isReady} />
+              </div>
+              <div className="snap-start h-full w-full flex-shrink-0 relative overflow-hidden">
+                <QuizCard data={card} isActive={index * 2 + 1 === activeIndex && isReady} />
+              </div>
+            </React.Fragment>
           ))}
         </div>
       </div>
