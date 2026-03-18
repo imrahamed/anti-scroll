@@ -5,8 +5,8 @@ export const nodejsData = [
         "topic": "Introduction",
         "subtopic": "What is Node.js?",
         "shortInsight": "Node.js: JavaScript outside the browser!",
-        "teaching": "Node.js is a runtime environment that lets you run JavaScript on the server (outside the browser). It uses Google\'s V8 engine and provides APIs for handling file systems, networking, and more, turning JS into a versatile backend language.",
-        "realLifeExample": "If JavaScript in the browser is like cooking on a stovetop, Node.js is like giving that same recipe a professional kitchen to work with — you can use powerful tools (like file systems, networks) you can\'t use in a browser.",
+        "teaching": "Node.js is a runtime environment that lets you run JavaScript on the server (outside the browser). It uses Google's V8 engine and provides APIs for handling file systems, networking, and more, turning JS into a versatile backend language.",
+        "realLifeExample": "If JavaScript in the browser is like cooking on a stovetop, Node.js is like giving that same recipe a professional kitchen to work with — you can use powerful tools (like file systems, networks) you can't use in a browser.",
         "quiz": {
             "question": "Which best describes Node.js?",
             "options": [
@@ -24,7 +24,7 @@ export const nodejsData = [
         "topic": "Introduction",
         "subtopic": "V8 JavaScript Engine",
         "shortInsight": "V8: The high-speed engine powering Node.js!",
-        "teaching": "V8 is Google\'s open-source JavaScript engine used by Chrome and Node.js. It compiles JavaScript directly to machine code, which makes code execution very fast. Node.js leverages V8 to run JavaScript on servers efficiently.",
+        "teaching": "V8 is Google's open-source JavaScript engine used by Chrome and Node.js. It compiles JavaScript directly to machine code, which makes code execution very fast. Node.js leverages V8 to run JavaScript on servers efficiently.",
         "realLifeExample": "Think of V8 like a high-performance car engine: it takes your code (fuel) and converts it into power (machine instructions) that make your Node.js app run fast.",
         "quiz": {
             "question": "What is V8 in the context of Node.js?",
@@ -252,8 +252,8 @@ export const nodejsData = [
         "topic": "Core Modules",
         "subtopic": "os",
         "shortInsight": "os module: Interact with the operating system!",
-        "teaching": "The 'os' module provides information about the operating system and hardware, like CPU architecture, memory, and network interfaces. It\'s useful for making decisions based on environment or logging system details.",
-        "realLifeExample": "Think of 'os' as a system report card: it tells you about your computer\'s specs, like how many CPUs it has or how much RAM is free.",
+        "teaching": "The 'os' module provides information about the operating system and hardware, like CPU architecture, memory, and network interfaces. It's useful for making decisions based on environment or logging system details.",
+        "realLifeExample": "Think of 'os' as a system report card: it tells you about your computer's specs, like how many CPUs it has or how much RAM is free.",
         "quiz": {
             "question": "Which method from the 'os' module returns information about CPUs?",
             "options": [
