@@ -18,7 +18,7 @@ jobs:
          npm install -g pnpm
          pnpm i
          npm run build
-
+         
       - name: deploying to surge
         uses: mahmoudgalalz/surge-action@v0.1.5
         with:
