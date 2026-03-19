@@ -2126,5 +2126,2125 @@ export const advancedNodejsData = [
             "answer": "Always return the next promise"
         },
         "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-set-timeout-zero",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "setTimeout with Zero Delay",
+        "shortInsight": "setTimeout(0) still waits for the event loop!",
+        "teaching": "Even with a 0ms delay, setTimeout callbacks are queued in the timers phase of the Node.js event loop. They only execute after the current synchronous code finishes and the call stack is empty. This is why synchronous console.log statements always print before the delayed callback.",
+        "realLifeExample": "Think of it as placing an urgent order at a busy coffee shop; even if you say 'right now', the barista still finishes the current customer's drink first!",
+        "quiz": {
+            "question": "What is the output of the following code?\nconsole.log('Start');\nsetTimeout(() => console.log('Timeout'), 0);\nconsole.log('End');",
+            "options": [
+                "Start Timeout End",
+                "Start End Timeout",
+                "Timeout Start End",
+                "End Start Timeout"
+            ],
+            "answer": "Start End Timeout"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-process-next-tick",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "process.nextTick Priority",
+        "shortInsight": "nextTick runs before any event loop phase!",
+        "teaching": "process.nextTick queues callbacks to run immediately after the current operation completes but before the event loop proceeds to timers or I/O. It belongs to the microtask queue and executes before Promise.then callbacks in the same tick.",
+        "realLifeExample": "Think of it as a sticky note saying 'do this before you leave the room' that you must handle before starting the next meeting!",
+        "quiz": {
+            "question": "What is the output of the following code?\nconsole.log('Start');\nprocess.nextTick(() => console.log('Next'));\nconsole.log('End');",
+            "options": [
+                "Start Next End",
+                "Start End Next",
+                "Next Start End",
+                "End Start Next"
+            ],
+            "answer": "Start End Next"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-set-immediate",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "setImmediate vs setTimeout",
+        "shortInsight": "setImmediate runs in the check phase after poll!",
+        "teaching": "setImmediate callbacks are executed in the check phase, after the poll phase completes. When both setTimeout(0) and setImmediate are scheduled in the same tick, setImmediate usually runs first because the timers phase comes before check only on the next cycle.",
+        "realLifeExample": "Think of setImmediate as jumping the queue at the end of the line while setTimeout waits for the next full round of service!",
+        "quiz": {
+            "question": "What is the output of the following code?\nsetTimeout(() => console.log('Timeout'), 0);\nsetImmediate(() => console.log('Immediate'));",
+            "options": [
+                "Timeout Immediate",
+                "Immediate Timeout",
+                "No output",
+                "Both at same time"
+            ],
+            "answer": "Immediate Timeout"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-promise-microtask",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Promise.then Microtask Order",
+        "shortInsight": "Promises run after nextTick but before timers!",
+        "teaching": "Promise.then callbacks are microtasks executed after process.nextTick but before the event loop moves to the timers phase. They drain completely before any macrotask like setTimeout fires.",
+        "realLifeExample": "Think of Promise.then as an urgent text message that arrives right after your phone call ends but before you start checking your mail!",
+        "quiz": {
+            "question": "What is the output of the following code?\nconsole.log('Start');\nPromise.resolve().then(() => console.log('Promise'));\nprocess.nextTick(() => console.log('Next'));\nconsole.log('End');",
+            "options": [
+                "Start End Promise Next",
+                "Start End Next Promise",
+                "Start Next Promise End",
+                "Next Promise Start End"
+            ],
+            "answer": "Start End Next Promise"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-global-scope",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this in Global Scope",
+        "shortInsight": "Global this points to the global object!",
+        "teaching": "At the top level of a Node.js module, 'this' refers to the module.exports object (not the global object). In the global scope outside any module, it points to global. This changes behavior compared to browsers.",
+        "realLifeExample": "Think of this as your personal notebook in class; in Node each file has its own notebook!",
+        "quiz": {
+            "question": "What does console.log(this === global); print at the top level of a Node.js file?",
+            "options": [
+                "true",
+                "false",
+                "undefined",
+                "Error"
+            ],
+            "answer": "false"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-set-timeout-regular",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this in setTimeout Regular Function",
+        "shortInsight": "this loses context in setTimeout callbacks!",
+        "teaching": "When a regular function is passed to setTimeout, 'this' inside it points to the global object (or undefined in strict mode) because the timer invokes it without a calling context. This is a classic output prediction trap.",
+        "realLifeExample": "Think of this as a dog that forgets its owner when the timer calls it to fetch the stick!",
+        "quiz": {
+            "question": "What is logged by this code?\nconst obj = {val: 'Hi'};\nsetTimeout(function() { console.log(this.val); }, 0);",
+            "options": [
+                "Hi",
+                "undefined",
+                "obj",
+                "global"
+            ],
+            "answer": "undefined"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-set-timeout-arrow",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this in setTimeout Arrow Function",
+        "shortInsight": "Arrow functions preserve lexical this!",
+        "teaching": "Arrow functions do not have their own 'this' binding; they inherit it from the enclosing scope. In a setTimeout arrow callback inside an object method, 'this' correctly refers to the object.",
+        "realLifeExample": "Think of arrow functions as a GPS that never loses the original destination no matter who calls it!",
+        "quiz": {
+            "question": "What is logged by this code?\nconst obj = {val: 'Hi'};\nsetTimeout(() => { console.log(this.val); }, 0);",
+            "options": [
+                "undefined",
+                "Hi",
+                "Error",
+                "global"
+            ],
+            "answer": "Hi"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-var-for-loop",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "var Mutation in for Loop with setTimeout",
+        "shortInsight": "var creates one shared variable for all closures!",
+        "teaching": "Using var in a for loop means all setTimeout callbacks close over the same variable that mutates to the final value by the time they execute. This is because var is function-scoped and not block-scoped.",
+        "realLifeExample": "Think of var as one shared shopping list that everyone keeps updating until the last item is written!",
+        "quiz": {
+            "question": "What is the output of this code?\nfor (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}",
+            "options": [
+                "0 1 2",
+                "3 3 3",
+                "0 0 0",
+                "1 2 3"
+            ],
+            "answer": "3 3 3"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-let-for-loop",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "let Mutation in for Loop with setTimeout",
+        "shortInsight": "let creates a fresh binding per iteration!",
+        "teaching": "The let keyword is block-scoped, so each iteration of the for loop creates a new variable binding captured by the setTimeout closure. This prevents the mutation issue seen with var.",
+        "realLifeExample": "Think of let as giving each friend their own private shopping list that never changes!",
+        "quiz": {
+            "question": "What is the output of this code?\nfor (let i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}",
+            "options": [
+                "3 3 3",
+                "0 1 2",
+                "undefined",
+                "1 2 3"
+            ],
+            "answer": "0 1 2"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-object-async",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Object Mutation in Async Callback",
+        "shortInsight": "Objects are mutated by reference even in async code!",
+        "teaching": "When you mutate an object's property inside a setTimeout or Promise callback, the change is visible immediately because objects are passed by reference. The mutation happens when the callback runs.",
+        "realLifeExample": "Think of an object as a shared notebook; anyone who gets it later can still scribble on the same page!",
+        "quiz": {
+            "question": "What is logged by this code?\nconst obj = {val: 1};\nsetTimeout(() => { obj.val = 2; }, 0);\nconsole.log(obj.val);",
+            "options": [
+                "2",
+                "1",
+                "undefined",
+                "Error"
+            ],
+            "answer": "1"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-nested-next-tick",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Nested process.nextTick",
+        "shortInsight": "Nested nextTick can starve the event loop!",
+        "teaching": "Calling process.nextTick inside another nextTick callback creates a new microtask that runs immediately after the current one. Too many nested nextTicks can prevent the event loop from ever reaching timers or I/O.",
+        "realLifeExample": "Think of it as continuously adding more urgent notes to the top of the stack instead of ever leaving the room!",
+        "quiz": {
+            "question": "Will a setTimeout(0) ever fire if you keep calling process.nextTick recursively?",
+            "options": [
+                "Yes immediately",
+                "No, it starves the loop",
+                "After one tick",
+                "Only once"
+            ],
+            "answer": "No, it starves the loop"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-class-method",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this in Class Method with setTimeout",
+        "shortInsight": "Class methods lose this unless bound or arrow!",
+        "teaching": "Regular class methods lose their 'this' binding when passed to setTimeout because the method is extracted. Using an arrow function as the method or .bind(this) preserves the class instance as 'this'.",
+        "realLifeExample": "Think of a class method as a recipe card that forgets whose kitchen it's in when handed to the timer!",
+        "quiz": {
+            "question": "What is logged by this code?\nclass Test {\n  constructor() { this.val = 'Hi'; }\n  log() {\n    setTimeout(function() { console.log(this.val); }, 0);\n  }\n}\nnew Test().log();",
+            "options": [
+                "Hi",
+                "undefined",
+                "Test",
+                "Error"
+            ],
+            "answer": "undefined"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-array-push-timer",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Array Mutation in Timer Callback",
+        "shortInsight": "Array push in async still mutates the original!",
+        "teaching": "Pushing to an array inside a setTimeout callback mutates the same array object because arrays are reference types. The length change is visible after the timer fires, even if you logged the array earlier.",
+        "realLifeExample": "Think of an array as a shared grocery cart; anyone who adds an item later still fills the same cart!",
+        "quiz": {
+            "question": "What is the final length after this code?\nconst arr = [];\nsetTimeout(() => arr.push(1), 0);\nconsole.log(arr.length);",
+            "options": [
+                "1",
+                "0",
+                "undefined",
+                "Error"
+            ],
+            "answer": "0"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-strict-mode",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this in Strict Mode Callback",
+        "shortInsight": "Strict mode makes this undefined in callbacks!",
+        "teaching": "In 'use strict' mode, a regular function called by setTimeout has 'this' set to undefined instead of the global object. This prevents accidental global pollution and is a common interview output question.",
+        "realLifeExample": "Think of strict mode as a polite bouncer that refuses to let 'this' sit at the global table!",
+        "quiz": {
+            "question": "In strict mode, what is this inside a setTimeout regular function?",
+            "options": [
+                "global",
+                "undefined",
+                "window",
+                "module"
+            ],
+            "answer": "undefined"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-fs-readfile-order",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "fs.readFile Callback Order",
+        "shortInsight": "I/O callbacks run in poll phase after timers!",
+        "teaching": "fs.readFile callbacks are executed in the poll phase once the I/O operation completes. If a setTimeout(0) is also scheduled, the timer may run first or second depending on when the file read finishes.",
+        "realLifeExample": "Think of file reading as waiting for a package delivery while timers are quick doorbell rings!",
+        "quiz": {
+            "question": "Which prints first if both are scheduled together: setTimeout(0) or fs.readFile callback?",
+            "options": [
+                "Always setTimeout",
+                "Depends on I/O speed",
+                "Always fs.readFile",
+                "Never both"
+            ],
+            "answer": "Depends on I/O speed"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-const-object",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Const Object Property Mutation",
+        "shortInsight": "const prevents reassignment but not mutation!",
+        "teaching": "A const declaration prevents reassigning the variable but allows mutating properties of objects or arrays it references. This is frequently tested in async code where you mutate inside callbacks.",
+        "realLifeExample": "Think of const as a locked box; you can't replace the box but you can rearrange everything inside it!",
+        "quiz": {
+            "question": "Does this code throw an error?\nconst obj = {a:1};\nsetTimeout(() => { obj.a = 2; }, 0);",
+            "options": [
+                "Yes",
+                "No",
+                "Only in strict mode",
+                "Depends"
+            ],
+            "answer": "No"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-promise-then",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this in Promise.then Regular Function",
+        "shortInsight": "Promise callbacks also lose this context!",
+        "teaching": "Regular functions in .then lose their 'this' just like setTimeout callbacks. Arrow functions or explicit binding are required to keep the original context when mixing with event-loop async code.",
+        "realLifeExample": "Think of Promise.then as another timer that calls your function without introducing you to the original owner!",
+        "quiz": {
+            "question": "What is this inside a regular function passed to .then()?",
+            "options": [
+                "The promise",
+                "undefined or global",
+                "The resolved value",
+                "The object"
+            ],
+            "answer": "undefined or global"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-set-timeout-inside-immediate",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "setTimeout Inside setImmediate",
+        "shortInsight": "Nested timers change execution order!",
+        "teaching": "When setTimeout is scheduled inside a setImmediate callback, the timeout callback moves to the next timers phase after the current check phase completes. This often results in the inner timeout running after subsequent immediates.",
+        "realLifeExample": "Think of it as sending a package from inside the express lane; it still has to go through the regular delivery cycle!",
+        "quiz": {
+            "question": "If you schedule setTimeout(0) inside setImmediate, which runs first on the next cycle?",
+            "options": [
+                "setImmediate again",
+                "The inner setTimeout",
+                "Both same time",
+                "Neither"
+            ],
+            "answer": "setImmediate again"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-module-exports",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this at Module Top Level",
+        "shortInsight": "this equals module.exports in files!",
+        "teaching": "Inside a Node.js module file (not wrapped in a function), 'this' refers to module.exports. Assigning properties to this adds them to the exported object.",
+        "realLifeExample": "Think of every file having its own private this that becomes the public export when the file is required!",
+        "quiz": {
+            "question": "At the top level of a module, this === module.exports evaluates to what?",
+            "options": [
+                "false",
+                "true",
+                "undefined",
+                "global"
+            ],
+            "answer": "true"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-closure-shared-var",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Closure Capturing Mutated Variable",
+        "shortInsight": "Closures see the latest value at execution time!",
+        "teaching": "A closure captures a reference to the variable, not its value at creation time. When the variable mutates before the async callback runs, all closures see the final mutated value.",
+        "realLifeExample": "Think of a closure as a mirror reflecting the current state of the room whenever you look later!",
+        "quiz": {
+            "question": "If a shared counter is incremented after scheduling 3 timers, what value do the timers see?",
+            "options": [
+                "Initial value",
+                "Final mutated value",
+                "Each sees different",
+                "Error"
+            ],
+            "answer": "Final mutated value"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-microtask-starvation",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Microtask Starvation of Event Loop",
+        "shortInsight": "Endless microtasks block timers forever!",
+        "teaching": "If you keep queuing new Promise.then or nextTick callbacks inside existing microtasks, the event loop never exits the microtask queue to reach timers or I/O phases.",
+        "realLifeExample": "Think of microtasks as an infinite loop of urgent alerts that never let the phone check for new messages!",
+        "quiz": {
+            "question": "Can setTimeout callbacks ever run if you recursively queue Promise.then forever?",
+            "options": [
+                "Yes after one cycle",
+                "No, starvation occurs",
+                "Only once",
+                "Immediately"
+            ],
+            "answer": "No, starvation occurs"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-queue-microtask",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "queueMicrotask Priority",
+        "shortInsight": "queueMicrotask drains after nextTick before timers!",
+        "teaching": "queueMicrotask adds callbacks to the microtask queue after process.nextTick but before the next macrotask. It is used for custom microtasks and follows the same drain rules as Promise callbacks.",
+        "realLifeExample": "Think of it as slipping an extra urgent email into the inbox right before the meeting starts!",
+        "quiz": {
+            "question": "What is the output?\nconsole.log('Start');\nqueueMicrotask(() => console.log('Micro'));\nconsole.log('End');",
+            "options": [
+                "Start Micro End",
+                "Start End Micro",
+                "Micro Start End",
+                "End Micro Start"
+            ],
+            "answer": "Start End Micro"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-async-await-order",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "async/await Microtask Order",
+        "shortInsight": "await pauses but resumes in microtask!",
+        "teaching": "await on a resolved promise schedules the remaining code as a microtask. It runs after current microtasks but before any timers, just like .then.",
+        "realLifeExample": "Think of await as hitting pause on a video – the next scene plays right after the current ad finishes!",
+        "quiz": {
+            "question": "What is the output?\nconsole.log('Start');\n(async () => { await Promise.resolve(); console.log('Await'); })();\nconsole.log('End');",
+            "options": [
+                "Start Await End",
+                "Start End Await",
+                "Await Start End",
+                "End Await Start"
+            ],
+            "answer": "Start End Await"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-multiple-settimeout",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Multiple setTimeout Same Delay",
+        "shortInsight": "Same-delay timers fire in scheduling order!",
+        "teaching": "When multiple setTimeout have the same delay, they are executed in the order they were scheduled (FIFO) once the timers phase runs.",
+        "realLifeExample": "Think of them as people arriving at the same time to a queue – first come, first served!",
+        "quiz": {
+            "question": "What is the output order?\nsetTimeout(() => console.log('A'), 0);\nsetTimeout(() => console.log('B'), 0);",
+            "options": [
+                "B A",
+                "A B",
+                "Random",
+                "Simultaneous"
+            ],
+            "answer": "A B"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-fs-promise-order",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Promise inside fs.readFile",
+        "shortInsight": "I/O callback then microtask!",
+        "teaching": "When a Promise is created inside an fs.readFile callback, its .then runs as a microtask after the poll phase callback finishes but before the next timers phase.",
+        "realLifeExample": "Think of the file read as opening a letter, then the promise is an urgent reply sent right after!",
+        "quiz": {
+            "question": "In fs.readFile callback with Promise.resolve().then, when does the then run relative to a setTimeout(0) scheduled before?",
+            "options": [
+                "Before setTimeout",
+                "After setTimeout",
+                "Same time",
+                "Never"
+            ],
+            "answer": "Before setTimeout"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-eventemitter",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this in EventEmitter Listener",
+        "shortInsight": "Event listeners lose this unless arrow or bind!",
+        "teaching": "Regular function listeners in emitter.on lose 'this' context and point to the emitter instance or global. Arrow functions preserve lexical this.",
+        "realLifeExample": "Think of the emitter as a boss calling your name – regular functions forget who they work for!",
+        "quiz": {
+            "question": "What does this refer to in a regular listener on an EventEmitter?",
+            "options": [
+                "The object that emitted",
+                "undefined",
+                "global",
+                "The listener function"
+            ],
+            "answer": "The object that emitted"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-foreach-timer",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "forEach with setTimeout Mutation",
+        "shortInsight": "forEach var still shares one variable!",
+        "teaching": "Using var inside array.forEach with setTimeout creates the same closure mutation issue as a for loop because the variable is still function-scoped.",
+        "realLifeExample": "Think of forEach as a group chat where everyone reads the last message sent!",
+        "quiz": {
+            "question": "What prints with forEach and var i in setTimeout?",
+            "options": [
+                "0 1 2",
+                "3 3 3",
+                "Each index",
+                "Error"
+            ],
+            "answer": "3 3 3"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-iife-let",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "IIFE with let for Closure Fix",
+        "shortInsight": "IIFE creates per-iteration scope!",
+        "teaching": "Wrapping setTimeout in an IIFE with let captures the current value per iteration, solving the mutation problem without using block-scoped let in the loop.",
+        "realLifeExample": "Think of an IIFE as giving each friend their own copy of the shopping list!",
+        "quiz": {
+            "question": "Does IIFE with let fix the var loop problem?",
+            "options": [
+                "No",
+                "Yes",
+                "Only with var",
+                "Depends on delay"
+            ],
+            "answer": "Yes"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-bind-timer",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "bind(this) in setTimeout",
+        "shortInsight": "bind explicitly fixes this context!",
+        "teaching": "Function.prototype.bind creates a new function with 'this' permanently set to the provided value, so even in setTimeout the original object context is preserved.",
+        "realLifeExample": "Think of bind as stapling your name tag to the function so the timer always knows who you are!",
+        "quiz": {
+            "question": "Does obj.method.bind(obj) fix this inside setTimeout?",
+            "options": [
+                "No",
+                "Yes",
+                "Only for arrow",
+                "Causes error"
+            ],
+            "answer": "Yes"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-nexttick-immediate",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "nextTick inside setImmediate",
+        "shortInsight": "nextTick always beats the next phase!",
+        "teaching": "A process.nextTick scheduled inside a setImmediate callback runs immediately after the current check phase before any subsequent timers or I/O.",
+        "realLifeExample": "Think of nextTick as a VIP pass that lets you cut the line even inside the express checkout!",
+        "quiz": {
+            "question": "If nextTick is called inside setImmediate, when does it run relative to the next setTimeout?",
+            "options": [
+                "After",
+                "Before",
+                "Same time",
+                "Never"
+            ],
+            "answer": "Before"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-full-phases",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Full Event Loop Phase Order",
+        "shortInsight": "Timers → Poll → Check → Timers again!",
+        "teaching": "The Node.js event loop phases execute in order: timers, pending callbacks, idle/prepare, poll, check, close callbacks, then back to timers. Microtasks drain after each phase.",
+        "realLifeExample": "Think of the event loop as a subway line with fixed stops – you must complete the full route before looping back!",
+        "quiz": {
+            "question": "After the check phase (setImmediate), which phase runs next?",
+            "options": [
+                "Timers",
+                "Poll",
+                "Close callbacks",
+                "Pending"
+            ],
+            "answer": "Close callbacks"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-http-callback",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "http.get Callback vs Timer",
+        "shortInsight": "HTTP I/O callbacks run in poll phase!",
+        "teaching": "Callbacks from http.get are I/O callbacks executed in the poll phase. A setTimeout(0) scheduled at the same time may run before or after depending on when the network response arrives.",
+        "realLifeExample": "Think of http.get as waiting for mail while the timer is a doorbell – whoever arrives first gets handled first!",
+        "quiz": {
+            "question": "Which runs first if http.get and setTimeout(0) are scheduled together?",
+            "options": [
+                "Always http",
+                "Depends on network",
+                "Always timer",
+                "Error"
+            ],
+            "answer": "Depends on network"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-strict-module",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this in Strict Mode Module",
+        "shortInsight": "Strict mode top-level this is undefined!",
+        "teaching": "In a module with 'use strict', top-level 'this' is undefined instead of module.exports. This is different from non-strict behavior.",
+        "realLifeExample": "Think of strict mode as removing the default seat at the global table!",
+        "quiz": {
+            "question": "In strict mode module top level, this equals what?",
+            "options": [
+                "module.exports",
+                "undefined",
+                "global",
+                "Error"
+            ],
+            "answer": "undefined"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-recursive-nexttick",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Recursive process.nextTick",
+        "shortInsight": "Recursive nextTick blocks everything!",
+        "teaching": "Recursive process.nextTick calls keep adding microtasks forever, preventing the event loop from ever reaching timers, I/O, or process exit.",
+        "realLifeExample": "Think of it as an endless chain of urgent texts that never lets you answer the door!",
+        "quiz": {
+            "question": "Does recursive process.nextTick allow setTimeout to run?",
+            "options": [
+                "Yes",
+                "No",
+                "Only once",
+                "After 10 calls"
+            ],
+            "answer": "No"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-array-foreach-async",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Array Mutation in forEach Async",
+        "shortInsight": "forEach async still mutates shared array!",
+        "teaching": "Pushing to the same array inside forEach callbacks (with setTimeout) mutates the original reference regardless of async timing.",
+        "realLifeExample": "Think of the array as a shared whiteboard – everyone adds their note later on the same board!",
+        "quiz": {
+            "question": "After forEach with setTimeout push, is the array mutated?",
+            "options": [
+                "No until loop ends",
+                "Yes immediately when callback runs",
+                "Never",
+                "Error"
+            ],
+            "answer": "Yes immediately when callback runs"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-arrow-class-field",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Class Field Arrow Function this",
+        "shortInsight": "Class fields with arrow auto-bind this!",
+        "teaching": "Class property arrow functions are created with lexical this bound to the instance, so they keep the correct context even when passed to setTimeout.",
+        "realLifeExample": "Think of class field arrows as name tags already glued to your shirt!",
+        "quiz": {
+            "question": "Does class { log = () => console.log(this.val); } keep this in timer?",
+            "options": [
+                "No",
+                "Yes",
+                "Only in strict",
+                "Depends"
+            ],
+            "answer": "Yes"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-setimmediate-io",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "setImmediate inside I/O Callback",
+        "shortInsight": "setImmediate after I/O runs next check!",
+        "teaching": "setImmediate scheduled inside an fs.readFile callback runs in the check phase of the same loop iteration, after the poll phase.",
+        "realLifeExample": "Think of it as getting an express ticket right after you pick up your package!",
+        "quiz": {
+            "question": "When does setImmediate run if scheduled inside fs.readFile callback?",
+            "options": [
+                "Next full loop",
+                "Immediately after I/O",
+                "Before I/O",
+                "Never"
+            ],
+            "answer": "Immediately after I/O"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-promise-chain",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Mutation in Promise Chain",
+        "shortInsight": "Mutation in .then affects original object!",
+        "teaching": "Mutating an object inside a .then callback changes the shared reference, visible to all other code holding the same object.",
+        "realLifeExample": "Think of the promise chain as passing around the same notebook – later pages can still scribble on earlier ones!",
+        "quiz": {
+            "question": "If you mutate obj inside .then, when is the change visible?",
+            "options": [
+                "Only after chain ends",
+                "Immediately when .then runs",
+                "Never",
+                "Only in catch"
+            ],
+            "answer": "Immediately when .then runs"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-timer-unref",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Timer unref and Process Exit",
+        "shortInsight": "unref timers don't prevent exit!",
+        "teaching": "Calling .unref() on a timer removes it from the event loop reference count, allowing the process to exit even if the timer is still pending.",
+        "realLifeExample": "Think of unref as telling the bouncer 'don't wait for me' so the party can end!",
+        "quiz": {
+            "question": "Does an unref'ed setTimeout(1000) prevent process exit?",
+            "options": [
+                "Yes",
+                "No",
+                "Only if 0 delay",
+                "Depends on OS"
+            ],
+            "answer": "No"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-top-level-await",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this with Top Level Await",
+        "shortInsight": "Top level await runs in module scope!",
+        "teaching": "In modules with top-level await, 'this' still refers to module.exports (or undefined in strict). The await just pauses module execution.",
+        "realLifeExample": "Think of top level await as waiting for coffee before handing in your notebook – the notebook is still yours!",
+        "quiz": {
+            "question": "In a module with top-level await, this === module.exports is?",
+            "options": [
+                "false",
+                "true",
+                "undefined",
+                "Error"
+            ],
+            "answer": "true"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-clear-timeout",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "clearTimeout Effect on Output",
+        "shortInsight": "clearTimeout prevents callback execution!",
+        "teaching": "Calling clearTimeout before the timer fires removes the callback from the timers queue so it never runs.",
+        "realLifeExample": "Think of clearTimeout as cancelling the coffee order before the barista starts making it!",
+        "quiz": {
+            "question": "If you clearTimeout right after scheduling, does the callback run?",
+            "options": [
+                "Yes",
+                "No",
+                "Only if 0 delay",
+                "Error"
+            ],
+            "answer": "No"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-set-in-timer",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Set Mutation in Timer Callback",
+        "shortInsight": "Set.add mutates the same collection!",
+        "teaching": "Adding to a Set inside a setTimeout callback mutates the original Set object because collections are reference types.",
+        "realLifeExample": "Think of a Set as a shared guest list – anyone can add names later to the same list!",
+        "quiz": {
+            "question": "After setTimeout(() => mySet.add(1)), does the Set have the item?",
+            "options": [
+                "No until timer fires",
+                "Yes when callback runs",
+                "Never",
+                "Error"
+            ],
+            "answer": "Yes when callback runs"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-nexttick-promise",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "nextTick vs Promise.then Order",
+        "shortInsight": "nextTick before Promise microtasks!",
+        "teaching": "process.nextTick callbacks run before any Promise.then in the same microtask queue drain.",
+        "realLifeExample": "Think of nextTick as the very first urgent call before any promise replies arrive!",
+        "quiz": {
+            "question": "Which runs first: process.nextTick or Promise.resolve().then?",
+            "options": [
+                "Promise",
+                "nextTick",
+                "Random",
+                "Same time"
+            ],
+            "answer": "nextTick"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-setinterval-regular",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this in setInterval Regular Function",
+        "shortInsight": "setInterval also loses this context!",
+        "teaching": "Regular functions passed to setInterval have 'this' set to global or undefined, just like setTimeout.",
+        "realLifeExample": "Think of setInterval as a recurring timer that also forgets who called it!",
+        "quiz": {
+            "question": "What is this inside a regular setInterval callback?",
+            "options": [
+                "The object",
+                "undefined",
+                "global",
+                "Interval ID"
+            ],
+            "answer": "undefined"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-map-set-async",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Map Mutation in Async Callback",
+        "shortInsight": "Map.set mutates shared reference!",
+        "teaching": "Setting a key on a Map inside an async callback changes the original Map because Maps are passed by reference.",
+        "realLifeExample": "Think of a Map as a shared address book – anyone can add contacts later!",
+        "quiz": {
+            "question": "Does myMap.set inside setTimeout affect the original Map?",
+            "options": [
+                "No",
+                "Yes",
+                "Only after exit",
+                "Error"
+            ],
+            "answer": "Yes"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-poll-starvation",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Poll Phase Starvation",
+        "shortInsight": "Endless poll callbacks block timers!",
+        "teaching": "If the poll phase keeps receiving I/O callbacks or you schedule setImmediate repeatedly, the event loop may never return to the timers phase.",
+        "realLifeExample": "Think of poll as an endless line at the post office – you never get to check your timer watch!",
+        "quiz": {
+            "question": "Can timers run if poll phase has endless I/O?",
+            "options": [
+                "Yes",
+                "No",
+                "Only once",
+                "After 1s"
+            ],
+            "answer": "No"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-promise-constructor",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this in Promise Constructor",
+        "shortInsight": "Promise executor runs synchronously!",
+        "teaching": "The executor function in new Promise runs synchronously with 'this' as undefined in strict mode or global otherwise.",
+        "realLifeExample": "Think of the promise constructor as an immediate job interview – you answer right away!",
+        "quiz": {
+            "question": "What is this inside new Promise((resolve) => { console.log(this); })?",
+            "options": [
+                "Promise instance",
+                "undefined",
+                "global",
+                "Error"
+            ],
+            "answer": "undefined"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-settimeout-in-nexttick",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "setTimeout inside nextTick",
+        "shortInsight": "Timer scheduled in microtask waits next loop!",
+        "teaching": "A setTimeout called inside process.nextTick is scheduled for the timers phase of the next full event loop cycle.",
+        "realLifeExample": "Think of it as mailing a letter from inside the urgent room – it goes out on the next delivery round!",
+        "quiz": {
+            "question": "When does setTimeout inside nextTick fire?",
+            "options": [
+                "Immediately",
+                "Next full loop",
+                "Never",
+                "Same tick"
+            ],
+            "answer": "Next full loop"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-object-freeze-async",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Object.freeze Mutation Attempt",
+        "shortInsight": "freeze prevents mutation even in async!",
+        "teaching": "Object.freeze makes properties non-writable. Attempting to mutate inside a timer callback throws in strict mode or silently fails otherwise.",
+        "realLifeExample": "Think of freeze as locking the notebook – no one can write anymore, even later!",
+        "quiz": {
+            "question": "Does setTimeout(() => frozenObj.prop = 2) change the value?",
+            "options": [
+                "Yes",
+                "No",
+                "Error always",
+                "Only strict"
+            ],
+            "answer": "No"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-setimmediate-nested",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Nested setImmediate",
+        "shortInsight": "Nested setImmediate queues for next check!",
+        "teaching": "Calling setImmediate inside a setImmediate callback schedules it for the next check phase after the current one finishes.",
+        "realLifeExample": "Think of it as buying another express ticket while you're already in the express line!",
+        "quiz": {
+            "question": "Does nested setImmediate run in the same check phase?",
+            "options": [
+                "Yes",
+                "No, next check",
+                "Immediately",
+                "Never"
+            ],
+            "answer": "No, next check"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-call-apply-timer",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this with call/apply in Timer",
+        "shortInsight": "call/apply set this only at invocation!",
+        "teaching": "Using fn.call(obj) sets this only for that synchronous call. When the same function is later passed to setTimeout, this is lost again.",
+        "realLifeExample": "Think of call as a one-time handshake – the timer still needs its own introduction!",
+        "quiz": {
+            "question": "Does fn.call(obj) before setTimeout(fn) keep this in the timer?",
+            "options": [
+                "Yes",
+                "No",
+                "Only arrow",
+                "Error"
+            ],
+            "answer": "No"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-primitive-closure",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Primitive in Closure Mutation",
+        "shortInsight": "Primitives are copied – no mutation!",
+        "teaching": "Closing over a primitive variable (number, string) captures the value at creation time. Reassigning the variable later does not affect closed-over copies.",
+        "realLifeExample": "Think of primitives as taking a photo of the number – later changes to the original don't update the photo!",
+        "quiz": {
+            "question": "If you close over a number and later reassign it, what does the timer see?",
+            "options": [
+                "New value",
+                "Original value",
+                "undefined",
+                "Error"
+            ],
+            "answer": "Original value"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-promise-all-timer",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Promise.all with Timers",
+        "shortInsight": "Promise.all waits for all – microtask after!",
+        "teaching": "Promise.all resolves when all promises resolve. The .then runs as a single microtask after the last inner promise settles.",
+        "realLifeExample": "Think of Promise.all as waiting for all friends to arrive before sending one group message!",
+        "quiz": {
+            "question": "When does Promise.all([setTimeout promises]).then run relative to individual timers?",
+            "options": [
+                "Before all timers",
+                "After all timers",
+                "With the last timer",
+                "Never"
+            ],
+            "answer": "After all timers"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-generator-timer",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this in Generator with Timer",
+        "shortInsight": "Generators lose this unless bound!",
+        "teaching": "Regular generator functions lose 'this' when their yielded functions are used in timers, just like normal functions.",
+        "realLifeExample": "Think of a generator as a recipe book – the timer still needs to know whose kitchen it is!",
+        "quiz": {
+            "question": "What is this inside a generator function passed to setTimeout?",
+            "options": [
+                "Generator instance",
+                "undefined",
+                "global",
+                "Error"
+            ],
+            "answer": "undefined"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-settimeout-zero-iife",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "setTimeout Zero in IIFE",
+        "shortInsight": "IIFE with setTimeout(0) still defers!",
+        "teaching": "Even inside an IIFE, setTimeout(0) queues the callback for the timers phase after synchronous code.",
+        "realLifeExample": "Think of the IIFE as a private room – you still have to wait for the timer bell outside!",
+        "quiz": {
+            "question": "Does setTimeout(0) inside IIFE run before or after outer console.log?",
+            "options": [
+                "Before",
+                "After",
+                "Same time",
+                "Never"
+            ],
+            "answer": "After"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-weakmap-async",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "WeakMap Mutation in Async",
+        "shortInsight": "WeakMap.set still mutates the map!",
+        "teaching": "WeakMap behaves like Map for mutation – setting a key inside an async callback updates the shared WeakMap.",
+        "realLifeExample": "Think of WeakMap as a private shared diary – later entries are still added!",
+        "quiz": {
+            "question": "Does WeakMap.set inside setTimeout affect the map?",
+            "options": [
+                "No",
+                "Yes",
+                "Only for garbage",
+                "Error"
+            ],
+            "answer": "Yes"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-microtask-queue-drain",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Microtask Queue Full Drain",
+        "shortInsight": "All microtasks run before next macrotask!",
+        "teaching": "The event loop drains the entire microtask queue (nextTick + promises + queueMicrotask) before moving to the next macrotask like timers.",
+        "realLifeExample": "Think of microtasks as all urgent emails that must be answered before you check regular mail!",
+        "quiz": {
+            "question": "If 5 Promise.then are queued, when do they run relative to one setTimeout?",
+            "options": [
+                "Interleaved",
+                "All before setTimeout",
+                "After setTimeout",
+                "Random"
+            ],
+            "answer": "All before setTimeout"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-arrow-nested",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Nested Arrow Function this",
+        "shortInsight": "Arrow inside arrow keeps outer this!",
+        "teaching": "Nested arrow functions all inherit the same lexical this from the enclosing scope.",
+        "realLifeExample": "Think of nested arrows as Russian dolls – all have the same owner label!",
+        "quiz": {
+            "question": "In obj.method = () => { return () => console.log(this); }, what is this in the inner arrow?",
+            "options": [
+                "global",
+                "obj",
+                "undefined",
+                "inner function"
+            ],
+            "answer": "obj"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-setimmediate-vs-nexttick-io",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "setImmediate vs nextTick after I/O",
+        "shortInsight": "After I/O, setImmediate runs before next timers!",
+        "teaching": "In an I/O callback, setImmediate runs in check phase while nextTick runs immediately as microtask.",
+        "realLifeExample": "Think of nextTick as answering the phone instantly after opening mail, setImmediate as checking the mailbox next!",
+        "quiz": {
+            "question": "In fs.readFile callback, which runs first: nextTick or setImmediate?",
+            "options": [
+                "setImmediate",
+                "nextTick",
+                "Same",
+                "Depends"
+            ],
+            "answer": "nextTick"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-const-array-push",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "const Array Push in Timer",
+        "shortInsight": "const array can still be mutated!",
+        "teaching": "const prevents reassignment but allows push, pop, etc. on the array reference inside async callbacks.",
+        "realLifeExample": "Think of const as owning the shopping cart – you can't get a new cart but you can add groceries!",
+        "quiz": {
+            "question": "Does const arr = []; setTimeout(() => arr.push(1)) work?",
+            "options": [
+                "No, error",
+                "Yes",
+                "Only if strict",
+                "Reassign only"
+            ],
+            "answer": "Yes"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-promise-rejection-order",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Promise Rejection Microtask",
+        "shortInsight": "Rejections are also microtasks!",
+        "teaching": "Uncaught promise rejections are handled in the microtask queue, running before timers even if the rejection happens later.",
+        "realLifeExample": "Think of a broken promise as an urgent complaint email that arrives before your regular mail!",
+        "quiz": {
+            "question": "When is a rejected promise .catch handler run relative to setTimeout?",
+            "options": [
+                "After",
+                "Before",
+                "Never",
+                "Same"
+            ],
+            "answer": "Before"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-bound-method-timer",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Bound Method in setTimeout",
+        "shortInsight": "Pre-bound methods keep this forever!",
+        "teaching": "If you bind a method once and store it, passing the bound version to setTimeout keeps the correct this.",
+        "realLifeExample": "Think of binding as laminating your name tag – it stays attached no matter who calls!",
+        "quiz": {
+            "question": "Does a pre-bound method keep this in setTimeout?",
+            "options": [
+                "No",
+                "Yes",
+                "Only arrow",
+                "Error"
+            ],
+            "answer": "Yes"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-node-vs-browser",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Node Event Loop vs Browser",
+        "shortInsight": "Node has extra phases and nextTick!",
+        "teaching": "Node.js event loop includes setImmediate and process.nextTick phases; browsers do not have check phase or nextTick.",
+        "realLifeExample": "Think of Node as a more detailed subway map with extra stops compared to the browser version!",
+        "quiz": {
+            "question": "Does browser have setImmediate?",
+            "options": [
+                "Yes native",
+                "No, polyfill only",
+                "Same as Node",
+                "Error"
+            ],
+            "answer": "No, polyfill only"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-shared-closure-array",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Shared Array in Multiple Closures",
+        "shortInsight": "Multiple timers mutate same array reference!",
+        "teaching": "All closures over the same array object see and perform mutations on the identical array.",
+        "realLifeExample": "Think of the array as one shared pizza – every timer takes a slice from the same pie!",
+        "quiz": {
+            "question": "If 3 timers push to the same array, how many items at end?",
+            "options": [
+                "1",
+                "3",
+                "0",
+                "Error"
+            ],
+            "answer": "3"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-check-phase-setimmediate",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Check Phase setImmediate",
+        "shortInsight": "Check phase is only for setImmediate!",
+        "teaching": "The check phase exists solely to execute setImmediate callbacks after the poll phase.",
+        "realLifeExample": "Think of the check phase as the 'express checkout' line that only setImmediate customers can use!",
+        "quiz": {
+            "question": "Which callbacks run exclusively in the check phase?",
+            "options": [
+                "setTimeout",
+                "setImmediate",
+                "Promises",
+                "fs callbacks"
+            ],
+            "answer": "setImmediate"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-reflect-apply",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Reflect.apply this in Timer",
+        "shortInsight": "Reflect.apply sets this only once!",
+        "teaching": "Reflect.apply sets this for the current call only – passing the function to setTimeout loses the context again.",
+        "realLifeExample": "Think of Reflect.apply as a one-time phone call introduction that doesn't stick for the timer!",
+        "quiz": {
+            "question": "Does Reflect.apply(obj, fn) before setTimeout keep this?",
+            "options": [
+                "Yes",
+                "No",
+                "Only in strict",
+                "Error"
+            ],
+            "answer": "No"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-default-param-closure",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Default Parameters in Closure Mutation",
+        "shortInsight": "Default params capture at call time!",
+        "teaching": "Default parameters are evaluated at function call time, so using them in timers can capture the current value correctly.",
+        "realLifeExample": "Think of default params as taking a fresh photo each time the function is called!",
+        "quiz": {
+            "question": "Does using default param in setTimeout fix mutation?",
+            "options": [
+                "No",
+                "Yes for that value",
+                "Only var",
+                "Error"
+            ],
+            "answer": "Yes for that value"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-close-callbacks",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Close Callbacks Phase",
+        "shortInsight": "Close phase runs before next timers!",
+        "teaching": "The close callbacks phase executes cleanup for closed sockets etc. before the event loop returns to timers.",
+        "realLifeExample": "Think of it as saying goodbye to guests before starting the next round of the party!",
+        "quiz": {
+            "question": "When do close callbacks run relative to timers?",
+            "options": [
+                "After timers",
+                "Before next timers",
+                "Same time",
+                "Never"
+            ],
+            "answer": "Before next timers"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-async-function",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this in async Function",
+        "shortInsight": "async functions are regular for this binding!",
+        "teaching": "async function declarations behave like regular functions for 'this' – they lose context in timers unless arrow or bound.",
+        "realLifeExample": "Think of async as just adding await sugar – the this rules stay the same!",
+        "quiz": {
+            "question": "What is this inside an async function passed to setTimeout?",
+            "options": [
+                "The async context",
+                "undefined",
+                "global",
+                "Promise"
+            ],
+            "answer": "undefined"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-object-assign-async",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Object.assign Mutation in Callback",
+        "shortInsight": "Object.assign mutates target object!",
+        "teaching": "Object.assign modifies the target object in place even when called inside async callbacks.",
+        "realLifeExample": "Think of Object.assign as copying stickers onto the same notebook page!",
+        "quiz": {
+            "question": "Does Object.assign(target, source) inside timer mutate target?",
+            "options": [
+                "No",
+                "Yes",
+                "Only shallow",
+                "Error"
+            ],
+            "answer": "Yes"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-idle-prepare",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Idle/Prepare Phase",
+        "shortInsight": "Internal phase for libuv!",
+        "teaching": "The idle and prepare phases are internal to libuv and not directly accessible to user code via timers or I/O.",
+        "realLifeExample": "Think of idle/prepare as the backstage crew setting up before the next act – you never see them!",
+        "quiz": {
+            "question": "Can user code schedule callbacks for idle/prepare phase?",
+            "options": [
+                "Yes with API",
+                "No",
+                "Only nextTick",
+                "Error"
+            ],
+            "answer": "No"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-super-class",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this with super in Class",
+        "shortInsight": "super calls parent with correct this!",
+        "teaching": "In class constructors and methods, super() or super.method() automatically uses the correct subclass this.",
+        "realLifeExample": "Think of super as calling your parent's phone with your own name tag attached!",
+        "quiz": {
+            "question": "Does super.method() inside class keep subclass this?",
+            "options": [
+                "No",
+                "Yes",
+                "Only arrow",
+                "Error"
+            ],
+            "answer": "Yes"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-pending-callbacks",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Pending Callbacks Phase",
+        "shortInsight": "Pending for deferred I/O errors!",
+        "teaching": "The pending callbacks phase executes callbacks for deferred I/O operations like some TCP errors that couldn't be handled in poll.",
+        "realLifeExample": "Think of it as the 'sorry, delayed delivery' notifications phase!",
+        "quiz": {
+            "question": "What kind of callbacks run in pending callbacks phase?",
+            "options": [
+                "setTimeout",
+                "Deferred I/O errors",
+                "setImmediate",
+                "Promises"
+            ],
+            "answer": "Deferred I/O errors"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-closure-let-iife",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "let in IIFE for Mutation Fix",
+        "shortInsight": "let + IIFE gives per-iteration binding!",
+        "teaching": "Using let inside an IIFE inside a loop creates a fresh variable for each timer closure.",
+        "realLifeExample": "Think of it as photocopying the list for each friend separately!",
+        "quiz": {
+            "question": "Does let inside IIFE fix the classic loop timer problem?",
+            "options": [
+                "No",
+                "Yes",
+                "Only var",
+                "Depends"
+            ],
+            "answer": "Yes"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-global-strict-timer",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this in Global Strict Timer",
+        "shortInsight": "Strict global this is undefined in callbacks!",
+        "teaching": "Even at global scope, strict mode makes timer callbacks have this = undefined.",
+        "realLifeExample": "Think of strict mode as a global rule that no one gets the default seat!",
+        "quiz": {
+            "question": "In strict mode global code, this inside setTimeout is?",
+            "options": [
+                "global",
+                "undefined",
+                "module",
+                "Error"
+            ],
+            "answer": "undefined"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-queue-microtask-starvation",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "queueMicrotask Starvation",
+        "shortInsight": "Recursive queueMicrotask also starves!",
+        "teaching": "Recursive queueMicrotask calls keep the microtask queue full, preventing timers and I/O the same way nextTick does.",
+        "realLifeExample": "Think of it as endless urgent emails that never let you read normal ones!",
+        "quiz": {
+            "question": "Can timers run with recursive queueMicrotask?",
+            "options": [
+                "Yes",
+                "No",
+                "Only once",
+                "After drain"
+            ],
+            "answer": "No"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-promise-async-arrow",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Arrow in Promise with async",
+        "shortInsight": "Arrow + async preserves this perfectly!",
+        "teaching": "Combining arrow function with async/await inside objects keeps lexical this throughout the async flow.",
+        "realLifeExample": "Think of arrow async as a GPS that never forgets the destination even on long detours!",
+        "quiz": {
+            "question": "Does async arrow method keep this in await?",
+            "options": [
+                "No",
+                "Yes",
+                "Only without await",
+                "Error"
+            ],
+            "answer": "Yes"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-array-spread-async",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Array Spread Mutation in Async",
+        "shortInsight": "Spread creates copy – original unchanged!",
+        "teaching": "Using [...arr] inside timer creates a new array; mutations to the copy don't affect the original.",
+        "realLifeExample": "Think of spread as photocopying the list – changes on the copy don't affect the original!",
+        "quiz": {
+            "question": "If you spread array in timer and push, does original change?",
+            "options": [
+                "Yes",
+                "No",
+                "Only shallow",
+                "Error"
+            ],
+            "answer": "No"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-timer-phase-order",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Timers Phase Execution Order",
+        "shortInsight": "Expired timers run in insertion order!",
+        "teaching": "In the timers phase, all expired setTimeout/setInterval callbacks run in the order they were scheduled.",
+        "realLifeExample": "Think of timers as numbered tickets – you serve them in the order they were taken!",
+        "quiz": {
+            "question": "Two setTimeout(0) scheduled – which fires first?",
+            "options": [
+                "Second",
+                "First scheduled",
+                "Random",
+                "Simultaneous"
+            ],
+            "answer": "First scheduled"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-class-static",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this in Static Class Method Timer",
+        "shortInsight": "Static methods this is the class!",
+        "teaching": "In static methods, 'this' refers to the class constructor itself, even when the method is passed to setTimeout.",
+        "realLifeExample": "Think of static as the company name tag – the timer still knows it's the company calling!",
+        "quiz": {
+            "question": "In static method passed to setTimeout, this equals?",
+            "options": [
+                "Instance",
+                "The class",
+                "undefined",
+                "global"
+            ],
+            "answer": "The class"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-set-clear-async",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Set.delete in Async Callback",
+        "shortInsight": "Set.delete mutates the collection!",
+        "teaching": "Deleting from a Set inside a timer callback removes the item from the original Set reference.",
+        "realLifeExample": "Think of Set.delete as crossing a name off the shared guest list later!",
+        "quiz": {
+            "question": "Does setTimeout(() => mySet.delete(key)) remove the item?",
+            "options": [
+                "No",
+                "Yes when callback runs",
+                "Only synchronously",
+                "Error"
+            ],
+            "answer": "Yes when callback runs"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-microtask-after-poll",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Microtasks After Poll Phase",
+        "shortInsight": "Microtasks drain after every phase!",
+        "teaching": "After the poll phase executes I/O callbacks, the microtask queue is fully drained before moving to check or close phases.",
+        "realLifeExample": "Think of microtasks as quick replies you must send after every phone call before hanging up!",
+        "quiz": {
+            "question": "After fs.readFile callback, when do queued Promise.then run?",
+            "options": [
+                "Next loop",
+                "Immediately after I/O",
+                "Before I/O",
+                "Never"
+            ],
+            "answer": "Immediately after I/O"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-module-function-export",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this in Exported Function",
+        "shortInsight": "Exported functions lose module this!",
+        "teaching": "When you export a regular function and call it from another module, 'this' is no longer module.exports – it becomes global or undefined.",
+        "realLifeExample": "Think of exporting as handing the notebook to someone else – they use their own this!",
+        "quiz": {
+            "question": "When calling an exported regular function, what is this?",
+            "options": [
+                "module.exports",
+                "undefined or global",
+                "The importing module",
+                "Error"
+            ],
+            "answer": "undefined or global"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-var-hoisting-timer",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "var Hoisting in Timer Closure",
+        "shortInsight": "Hoisted var is undefined until assignment!",
+        "teaching": "var is hoisted but initialized as undefined. If a timer closes over it before assignment, the callback sees undefined.",
+        "realLifeExample": "Think of hoisting as announcing the shopping list exists but it's blank until you write on it!",
+        "quiz": {
+            "question": "If var x is declared after setTimeout that logs x, what is logged?",
+            "options": [
+                "Value",
+                "undefined",
+                "Error",
+                "1"
+            ],
+            "answer": "undefined"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-setimmediate-recursive",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Recursive setImmediate",
+        "shortInsight": "Recursive setImmediate never starves timers!",
+        "teaching": "Unlike nextTick, recursive setImmediate still allows the event loop to cycle through other phases, so timers can still run.",
+        "realLifeExample": "Think of recursive setImmediate as repeatedly taking the express lane but still letting others through!",
+        "quiz": {
+            "question": "Does recursive setImmediate block setTimeout?",
+            "options": [
+                "Yes",
+                "No",
+                "Only after 10",
+                "Error"
+            ],
+            "answer": "No"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-arrow-promise-then",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Arrow in Promise.then",
+        "shortInsight": "Arrow in .then keeps outer this!",
+        "teaching": "Using an arrow function in .then inherits the lexical this from the scope where the Promise chain was created.",
+        "realLifeExample": "Think of arrow then as keeping the original owner's name tag through the entire promise journey!",
+        "quiz": {
+            "question": "In obj.method = function() { return Promise.resolve().then(() => this); }, what is this in then?",
+            "options": [
+                "undefined",
+                "obj",
+                "Promise",
+                "global"
+            ],
+            "answer": "obj"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-array-length-async",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Array Length Mutation in Timer",
+        "shortInsight": "Direct length = mutates the array!",
+        "teaching": "Setting arr.length = 0 inside a timer callback truncates the original array immediately when the callback runs.",
+        "realLifeExample": "Think of changing length as cutting the shopping list paper shorter – it affects the shared list!",
+        "quiz": {
+            "question": "After setTimeout(() => arr.length = 0), is the array empty?",
+            "options": [
+                "No until later",
+                "Yes when callback runs",
+                "Never",
+                "Error"
+            ],
+            "answer": "Yes when callback runs"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-pending-i-o",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Pending I/O Callbacks Order",
+        "shortInsight": "Pending callbacks before poll!",
+        "teaching": "Deferred I/O callbacks (like OS-level errors) run in the pending callbacks phase before the poll phase.",
+        "realLifeExample": "Think of pending as the 'we couldn't deliver' notices before checking the main mailbox!",
+        "quiz": {
+            "question": "When do pending I/O callbacks run relative to poll?",
+            "options": [
+                "After poll",
+                "Before poll",
+                "Same time",
+                "Never"
+            ],
+            "answer": "Before poll"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-class-constructor-timer",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "this in Constructor with Timer",
+        "shortInsight": "Constructor this is the instance!",
+        "teaching": "Inside a class constructor, 'this' is the new instance. Scheduling a timer inside the constructor keeps that instance as this if using arrow.",
+        "realLifeExample": "Think of the constructor as introducing yourself – the timer remembers the name you gave!",
+        "quiz": {
+            "question": "In class constructor with setTimeout(() => console.log(this)), what is logged?",
+            "options": [
+                "undefined",
+                "The instance",
+                "Class",
+                "Error"
+            ],
+            "answer": "The instance"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-const-reassign-error",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Const Reassign in Async",
+        "shortInsight": "Const reassign throws even in timer!",
+        "teaching": "Attempting to reassign a const variable inside a timer callback throws a TypeError synchronously when the callback executes.",
+        "realLifeExample": "Think of const as a locked safe – trying to replace the entire safe later still fails!",
+        "quiz": {
+            "question": "Does setTimeout(() => { const x = 1; x = 2; }) throw?",
+            "options": [
+                "No",
+                "Yes when timer runs",
+                "Immediately",
+                "Never"
+            ],
+            "answer": "Yes when timer runs"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-close-phase-order",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Close Callbacks Order",
+        "shortInsight": "Close callbacks run after check!",
+        "teaching": "The close callbacks phase executes after the check phase in every event loop iteration.",
+        "realLifeExample": "Think of close as saying goodbye after the express checkout is done!",
+        "quiz": {
+            "question": "After setImmediate, when do close callbacks run?",
+            "options": [
+                "Before check",
+                "After check",
+                "Before timers",
+                "Never"
+            ],
+            "answer": "After check"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-exported-arrow",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Exported Arrow Function this",
+        "shortInsight": "Exported arrow keeps creation this!",
+        "teaching": "Arrow functions exported from a module keep the lexical this from the module where they were defined.",
+        "realLifeExample": "Think of exported arrows as carrying their original notebook with them!",
+        "quiz": {
+            "question": "An exported arrow function from a module – what is its this when called elsewhere?",
+            "options": [
+                "undefined",
+                "The module's this",
+                "global",
+                "The caller"
+            ],
+            "answer": "The module's this"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-map-clear-async",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Map.clear in Timer",
+        "shortInsight": "Map.clear empties the original map!",
+        "teaching": "Calling clear() on a Map inside async code empties the shared Map reference.",
+        "realLifeExample": "Think of clear as erasing the entire shared address book at once!",
+        "quiz": {
+            "question": "Does map.clear() inside setTimeout empty the map?",
+            "options": [
+                "No",
+                "Yes",
+                "Only size",
+                "Error"
+            ],
+            "answer": "Yes"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-timers-after-close",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Timers After Close Phase",
+        "shortInsight": "After close, back to timers!",
+        "teaching": "After the close callbacks phase, the event loop loops back to the timers phase for the next iteration.",
+        "realLifeExample": "Think of it as the party starting another round after everyone has said goodbye!",
+        "quiz": {
+            "question": "After close callbacks, which phase runs next?",
+            "options": [
+                "Poll",
+                "Timers",
+                "Check",
+                "Pending"
+            ],
+            "answer": "Timers"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-strict-exported",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Strict Mode Exported Function this",
+        "shortInsight": "Strict exported functions have undefined this!",
+        "teaching": "Functions exported from strict modules have this = undefined when called without explicit context.",
+        "realLifeExample": "Think of strict export as sending a polite 'no default seat' note with the function!",
+        "quiz": {
+            "question": "Calling a strict-mode exported regular function – this is?",
+            "options": [
+                "module.exports",
+                "undefined",
+                "global",
+                "Error"
+            ],
+            "answer": "undefined"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-weakset-add-async",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "WeakSet.add in Async",
+        "shortInsight": "WeakSet.add mutates the set!",
+        "teaching": "Adding to a WeakSet inside a timer updates the original WeakSet reference.",
+        "realLifeExample": "Think of WeakSet as a private guest list – new guests can still be added later!",
+        "quiz": {
+            "question": "Does WeakSet.add inside setTimeout add the item?",
+            "options": [
+                "No",
+                "Yes",
+                "Only if strong",
+                "Error"
+            ],
+            "answer": "Yes"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-microtask-after-close",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Microtasks After Close Phase",
+        "shortInsight": "Microtasks drain even after close!",
+        "teaching": "The microtask queue is drained after the close callbacks phase before the loop returns to timers.",
+        "realLifeExample": "Think of microtasks as final quick replies after saying goodbye to everyone!",
+        "quiz": {
+            "question": "When do microtasks run after close callbacks?",
+            "options": [
+                "Before next timers",
+                "After next timers",
+                "Never",
+                "Same time"
+            ],
+            "answer": "Before next timers"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-arrow-static",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Arrow in Static Class Method",
+        "shortInsight": "Static arrow this is the class!",
+        "teaching": "Arrow functions in static class fields or methods have this bound to the class constructor.",
+        "realLifeExample": "Think of static arrow as the company logo that never changes owner!",
+        "quiz": {
+            "question": "In static arrow method, this refers to?",
+            "options": [
+                "Instance",
+                "The class",
+                "undefined",
+                "global"
+            ],
+            "answer": "The class"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-array-splice-async",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Array.splice in Timer",
+        "shortInsight": "splice mutates original array!",
+        "teaching": "Array.prototype.splice modifies the array in place even when called asynchronously.",
+        "realLifeExample": "Think of splice as cutting pieces out of the shared grocery list!",
+        "quiz": {
+            "question": "Does arr.splice(0,1) inside setTimeout change the array?",
+            "options": [
+                "No",
+                "Yes",
+                "Only copy",
+                "Error"
+            ],
+            "answer": "Yes"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-last-phase-loop",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Event Loop Full Cycle Return",
+        "shortInsight": "After close → timers again!",
+        "teaching": "The event loop always returns to the timers phase after completing the close callbacks phase.",
+        "realLifeExample": "Think of the full cycle as a clock that resets to the timer hand after every full rotation!",
+        "quiz": {
+            "question": "After the close callbacks phase, the next phase is?",
+            "options": [
+                "Check",
+                "Timers",
+                "Poll",
+                "Pending"
+            ],
+            "answer": "Timers"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-global-arrow",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Global Arrow Function this",
+        "shortInsight": "Global arrow this is global object!",
+        "teaching": "Arrow functions defined at global scope inherit this from the global object even in strict mode.",
+        "realLifeExample": "Think of global arrow as always knowing the big picture owner!",
+        "quiz": {
+            "question": "In global scope, arrow function this equals?",
+            "options": [
+                "undefined",
+                "global",
+                "module",
+                "Error"
+            ],
+            "answer": "global"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-object-seal-async",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Object.seal Mutation Attempt",
+        "shortInsight": "seal prevents adding properties!",
+        "teaching": "Object.seal makes existing properties non-configurable and prevents adding new ones. Mutations inside timers fail silently or throw in strict.",
+        "realLifeExample": "Think of seal as taping the notebook shut – no new pages can be added!",
+        "quiz": {
+            "question": "Can you add a new property to sealed object in timer?",
+            "options": [
+                "Yes",
+                "No",
+                "Only modify",
+                "Error always"
+            ],
+            "answer": "No"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-microtask-priority",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Microtask vs Macrotask Priority",
+        "shortInsight": "Microtasks always before macrotasks!",
+        "teaching": "No matter which phase, the microtask queue is completely drained before any macrotask (timers, I/O, check) executes.",
+        "realLifeExample": "Think of microtasks as VIPs that always cut the line before regular customers!",
+        "quiz": {
+            "question": "Do microtasks run before or after a macrotask?",
+            "options": [
+                "After",
+                "Before",
+                "Interleaved",
+                "Same"
+            ],
+            "answer": "Before"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-this-module-strict-arrow",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Strict Module Arrow this",
+        "shortInsight": "Module arrow this is module.exports!",
+        "teaching": "Even in strict mode modules, top-level arrow functions have this bound to module.exports.",
+        "realLifeExample": "Think of module arrow as carrying the export notebook no matter the rules!",
+        "quiz": {
+            "question": "In strict module, top-level arrow function this equals?",
+            "options": [
+                "undefined",
+                "module.exports",
+                "global",
+                "Error"
+            ],
+            "answer": "module.exports"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-mutation-array-concat-async",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Array.concat in Async",
+        "shortInsight": "concat returns new array – no mutation!",
+        "teaching": "arr.concat() creates a new array; the original is unchanged even if called asynchronously.",
+        "realLifeExample": "Think of concat as making a photocopy of the list – changes don't affect the original!",
+        "quiz": {
+            "question": "Does arr.concat([1]) inside timer change original arr?",
+            "options": [
+                "Yes",
+                "No",
+                "Only if assigned",
+                "Error"
+            ],
+            "answer": "No"
+        },
+        "isInterviewQuestion": true
+    },
+    {
+        "id": "node-js-interview-questions-event-loop-final-microtask-drain",
+        "category": "Node.js",
+        "topic": "Interview Questions",
+        "subtopic": "Final Microtask Drain Before Exit",
+        "shortInsight": "Microtasks drain before process exit!",
+        "teaching": "Before Node.js exits, the event loop drains any remaining microtasks even after no more macrotasks.",
+        "realLifeExample": "Think of it as answering all urgent emails before turning off the lights and leaving!",
+        "quiz": {
+            "question": "Do pending microtasks run before process exit?",
+            "options": [
+                "No",
+                "Yes",
+                "Only nextTick",
+                "Never"
+            ],
+            "answer": "Yes"
+        },
+        "isInterviewQuestion": true
     }
 ]
