@@ -1,6 +1,22 @@
 import fs from 'fs';
 import path from 'path';
 
+// TypeScript/JavaScript specific distractors categorized by type
+const distractors = {
+  types: ['string', 'number', 'boolean', 'any', 'unknown', 'never', 'void', 'object', 'tuple', 'enum'],
+  keywords: ['interface', 'type', 'class', 'extends', 'implements', 'readonly', 'keyof', 'typeof', 'infer', 'namespace'],
+  concepts: ['Type Inference', 'Type Narrowing', 'Generics', 'Utility Types', 'Mapped Types', 'Conditional Types', 'Type Assertions', 'Declaration Merging'],
+  tools: ['tsc', 'tsconfig.json', 'ts-node', 'eslint', 'prettier', 'webpack', 'vite', 'babel'],
+  errors: ['TypeError', 'SyntaxError', 'ReferenceError', 'RangeError']
+};
+
+function getDistractors(correctAnswer, type = 'types', count = 3) {
+  const pool = distractors[type] || distractors.types;
+  const filtered = pool.filter(w => w.toLowerCase() !== correctAnswer.toLowerCase());
+  // Shuffle and take count
+  return filtered.sort(() => 0.5 - Math.random()).slice(0, count);
+}
+
 const parseMarkdownFiles = () => {
   const dirPath = path.join(process.cwd(), 'temp_book');
   const files = fs.readdirSync(dirPath).filter(file => file.endsWith('.md')).sort();
@@ -22,42 +38,19 @@ const parseMarkdownFiles = () => {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
 
-    // Split the entire file by any heading level (#, ##, ###, ####, etc)
-    // The regex captures the hashes, and the text of the heading.
-    // It splits the content, giving an array: [contentBeforeFirstHeading, hashes1, heading1, content1, hashes2, heading2, content2, ...]
     const tokens = content.split(/^(#{1,6})\s+(.*)$/m);
 
     const introduction = tokens[0].trim();
     if (introduction.length > 30) {
-      cards.push({
-        id: `ts-book-${idCounter++}`,
-        category: "Total TypeScript",
-        topic: `Chapter ${chapterNum}: ${chapterName}`,
-        subtopic: "Introduction",
-        shortInsight: `Introduction to ${chapterName}`,
-        teaching: sanitizeText(introduction),
-        realLifeExample: extractExample(introduction),
-        quiz: generateQuiz("Introduction", introduction)
-      });
+      cards.push(createCard(idCounter++, chapterNum, chapterName, "Introduction", introduction));
     }
 
-    // Process heading tokens
     for (let i = 1; i < tokens.length; i += 3) {
-      const headingLevelHashes = tokens[i];
       const sectionTitle = tokens[i+1]?.trim() || '';
       const sectionContent = tokens[i+2]?.trim() || '';
 
-      if (sectionContent.length > 30) { // Keep even small sections
-        cards.push({
-          id: `ts-book-${idCounter++}`,
-          category: "Total TypeScript",
-          topic: `Chapter ${chapterNum}: ${chapterName}`,
-          subtopic: sectionTitle,
-          shortInsight: generateInsight(sectionTitle, sectionContent),
-          teaching: sanitizeText(sectionContent),
-          realLifeExample: extractExample(sectionContent),
-          quiz: generateQuiz(sectionTitle, sectionContent)
-        });
+      if (sectionContent.length > 30) {
+        cards.push(createCard(idCounter++, chapterNum, chapterName, sectionTitle, sectionContent));
       }
     }
   });
@@ -66,8 +59,17 @@ const parseMarkdownFiles = () => {
   fs.writeFileSync(path.join(process.cwd(), 'src/data/totalTypescript.ts'), outputContent);
 };
 
-function sanitizeText(text) {
-  return text;
+function createCard(id, chapterNum, chapterName, title, content) {
+    return {
+      id: `ts-book-${id}`,
+      category: "Total TypeScript",
+      topic: `Chapter ${chapterNum}: ${chapterName}`,
+      subtopic: title,
+      shortInsight: generateInsight(title, content),
+      teaching: content, // include raw content to ensure code blocks stay intact
+      realLifeExample: extractExample(content),
+      quiz: generateQuiz(title, content)
+    };
 }
 
 function generateInsight(title, content) {
@@ -80,13 +82,19 @@ function generateInsight(title, content) {
     }
     return insight;
   }
-  return `Key concepts about ${title}.`;
+  return `Understanding ${title} in TypeScript.`;
 }
 
 function extractExample(content) {
   const codeBlockMatch = content.match(/```(?:ts|typescript|js|javascript)?(?:\s+twoslash)?\n([\s\S]*?)```/);
   if (codeBlockMatch) {
-    return "Consider this code snippet:\n```ts\n" + codeBlockMatch[1].trim() + "\n```";
+    return "Here is a code example from the book:\n\n```ts\n" + codeBlockMatch[1].trim() + "\n```";
+  }
+
+  // If no code block is found, see if we can find an inline code snippet that's decently sized
+  const inlineMatch = content.match(/`([^`]{10,})`/);
+  if (inlineMatch) {
+      return `For example, consider this syntax: \`${inlineMatch[1]}\``;
   }
 
   const lines = content.split('\n');
@@ -95,16 +103,17 @@ function extractExample(content) {
       return line.trim();
     }
   }
-  return "Review the code snippets and examples provided in the teaching section.";
+  return "Review the principles described above to apply them in your TypeScript projects.";
 }
 
 function generateQuiz(title, content) {
   const cleanContent = content.replace(/```[\s\S]*?```/g, '');
   const sentences = cleanContent.split(/[.?!]\s/);
-  let bestSentence = null;
 
+  // Let's try to extract a definition or a strong statement
+  let bestSentence = null;
   for (const sentence of sentences) {
-    if ((sentence.includes(' is ') || sentence.includes(' allows ') || sentence.includes(' used for ') || sentence.includes(' means ')) && sentence.length < 150 && sentence.length > 30) {
+    if ((sentence.includes(' is ') || sentence.includes(' allows ') || sentence.includes(' means ')) && sentence.length < 150 && sentence.length > 30) {
       bestSentence = sentence.trim();
       break;
     }
@@ -114,9 +123,26 @@ function generateQuiz(title, content) {
     bestSentence = sentences.find(s => s.length > 40 && s.length < 150);
   }
 
+  // Default fallback
+  let quiz = {
+    question: `What concept does this section on '${title}' primarily focus on?`,
+    options: [
+        title,
+        ...getDistractors(title, 'concepts', 3)
+    ].sort(() => Math.random() - 0.5),
+    answer: title
+  };
+
   if (bestSentence) {
     const words = bestSentence.split(' ');
-    let targetWord = words.find(w => w.length >= 6 && !['TypeScript', 'JavaScript'].includes(w));
+    // Try to find a good keyword to replace
+    let targetWord = words.find(w =>
+        w.length >= 5 &&
+        !['TypeScript', 'JavaScript'].includes(w) &&
+        !w.includes('this') &&
+        !w.includes('that')
+    );
+
     if (!targetWord && words.length > 3) {
       targetWord = words[Math.floor(words.length / 2)];
     }
@@ -124,29 +150,29 @@ function generateQuiz(title, content) {
     if (targetWord) {
       const cleanTarget = targetWord.replace(/[,;:]/g, '');
       const questionText = bestSentence.replace(targetWord, '______');
-      return {
-        question: `Fill in the blank: ${questionText}?`,
+
+      // Determine what kind of distractor to use based on the target word
+      let distractorType = 'concepts';
+      if (['string', 'number', 'boolean', 'any', 'void'].includes(cleanTarget.toLowerCase())) {
+          distractorType = 'types';
+      } else if (['interface', 'type', 'class'].includes(cleanTarget.toLowerCase())) {
+          distractorType = 'keywords';
+      }
+
+      const wrongAnswers = getDistractors(cleanTarget, distractorType, 3);
+
+      quiz = {
+        question: `Choose the best answer to complete the sentence:\n\n"${questionText}?"`,
         options: [
           cleanTarget,
-          "variable",
-          "function",
-          "runtime"
+          ...wrongAnswers
         ].sort(() => Math.random() - 0.5),
         answer: cleanTarget
       };
     }
   }
 
-  return {
-    question: `What is the primary focus of the section on ${title}?`,
-    options: [
-      `Understanding the core concepts of ${title}.`,
-      `How to replace JavaScript entirely.`,
-      `Making code run faster in the browser.`,
-      `Using deprecated features of TypeScript.`
-    ],
-    answer: `Understanding the core concepts of ${title}.`
-  };
+  return quiz;
 }
 
 parseMarkdownFiles();

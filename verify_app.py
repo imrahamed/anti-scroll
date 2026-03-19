@@ -9,15 +9,21 @@ def verify_app():
 
         # Click on the Total TypeScript category
         page.wait_for_selector("text=Total TypeScript", timeout=10000)
-        page.screenshot(path="screenshot_categories.png")
-        print("Categories screenshot saved to screenshot_categories.png")
-
-        # Click and wait
         page.click("text=Total TypeScript")
+
+        # Wait for the main scroll container
+        page.wait_for_selector("div.h-screen.w-full")
+
+        # Scroll the specific container down
+        page.evaluate('''() => {
+            const container = document.querySelector('div.h-screen.w-full.overflow-y-scroll');
+            if(container) container.scrollBy(0, window.innerHeight);
+        }''')
+
         time.sleep(2)
 
-        page.screenshot(path="screenshot_cards.png")
-        print("Cards screenshot saved to screenshot_cards.png")
+        page.screenshot(path="screenshot_quiz3.png")
+        print("Quiz screenshot saved to screenshot_quiz3.png")
 
         browser.close()
 
