@@ -9,6 +9,7 @@ import { advancedNodejsData } from './advancedNodejs';
 import { architectureData } from './architecture';
 import { devopsData } from './devops';
 import { systemDesignData } from './systemDesign';
+import { totalTypescriptData } from './totalTypescript';
 
 export const contentData = [
   ...prerequisitesData,
@@ -22,4 +23,5 @@ export const contentData = [
   ...architectureData,
   ...devopsData,
   ...systemDesignData,
+  ...totalTypescriptData,
 ];
